@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>sdas</title>
+    <!--<script src="https://assets.pagar.me/pagarme-js/3.0/pagarme.min.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://assets.pagar.me/checkout/1.1.0/checkout.js"></script>
+    <!--<script type="text/javascript">
+        $(document).ready(function() { 
+        var form = $("#payment_form")
+    
+        form.submit(function(event) {
+            event.preventDefault();
+            var card = {} 
+            card.card_holder_name = $("#form #card_holder_name").val()
+            card.card_expiration_date = $("#form #card_expiration_date").val()
+            card.card_number = $("#form #card_number").val()
+            card.card_cvv = $("#form #card_cvv").val()
+    
+            // pega os erros de validação nos campos do form e a bandeira do cartão
+            var cardValidations = pagarme.validate({card: card})
+                    
+            //Então você pode verificar se algum campo não é válido
+            if(!cardValidations.card.card_number)
+              console.log('Oops, número de cartão incorreto')
+             
+            //Mas caso esteja tudo certo, você pode seguir o fluxo
+            pagarme.client.connect({ encryption_key: 'ek_test_gqpcDS3gQw1bUfMET3A32EBbc4BwuR' })
+              .then(client => client.security.encrypt(card))
+              .then(card_hash => {
+                $.post('/pay', { card_hash: card_hash });
+                console.log(card_hash)
+              })
+              // o próximo passo aqui é enviar o card_hash para seu servidor, e
+              // em seguida criar a transação/assinatura
+            return false
+        })
+    });
+      </script>-->
+  </head>
+  <body>
+    <!--<form id="payment_form form" action="/pay" method="POST">
+      Número do cartão: <input type="text" name="Cardnumber" id="card_number" />
+      <br />
+      Nome (como escrito no cartão):
+      <input type="text" name="Cardholdername" id="card_holder_name" />
+      <br />
+      Mês de expiração:
+      <input
+        type="text"
+        name="Cardexpirationmonth"
+        id="card_expiration_month"
+      />
+      <br />
+      Ano de expiração:
+      <input type="text" name="Cardexpirationyear" id="card_expiration_year" />
+      <br />
+      Código de segurança: <input type="text" name="Cardcvv" id="card_cvv" />
+      <br />
+      Deseja parcelar em quantas vezes?:
+      <input
+        type="number"
+        name="Installments"
+        id="installments"
+        min="1"
+        max="10"
+      />
+      <br />
+      <div id="field_errors"></div>
+      <br />
+      <button type="submit">Enviar</button>
+    </form>-->
+
+    <div id="form">
+        Número do cartão: <input type="text" id="card_number"/>
+        <br/>
+        Nome (como escrito no cartão): <input type="text" id="card_holder_name"/>
+        <br/>
+        Mês de expiração: <input type="text" id="card_expiration_date"/>
+        <br/>
+        Código de segurança: <input type="text" id="card_cvv"/>
+        <br/>
+        <div id="field_errors">
+        </div>
+        <br/>
+    </div>
+    <form id="payment_form" action="/pay" method="POST">
+        <input type="submit"></input>
+    </form>
+
+    <form action="/cancelar" method="POST">
+      <input type="text" name="id" />
+      <button type="submit">Cancelar</button>
+    </form>
+
+  </body>
+</html>

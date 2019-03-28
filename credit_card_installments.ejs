@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pagamentos com Pagar.me</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://assets.pagar.me/checkout/1.1.0/checkout.js"></script>
+  </head>
+  <body>
+    <button>PAGAR EM ATÉ 5X</button>
+
+    <script>
+      var button = document.querySelector("button");
+
+      button.addEventListener("click", function() {
+        function handleSuccess(data) {
+          console.log(data);
+          $.post("/checkout", { data: data.token });
+        }
+
+        function handleError(data) {
+          console.log(data);
+        }
+
+        var checkout = new PagarMeCheckout.Checkout({
+          encryption_key: "ek_test_gqpcDS3gQw1bUfMET3A32EBbc4BwuR",
+          success: handleSuccess,
+          error: handleError
+        });
+
+        checkout.open({
+          amount: 8000,
+          createToken: "true",
+          paymentMethods: "credit_card",
+          postback_url: "http://localhost:3000/",
+          customerData: true,
+          maxInstallments: 5
+        });
+      });
+    </script>
+  </body>
+</html>
